@@ -22,7 +22,6 @@ public class PlayerAnimationController : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         playerRigidBody = playerController.gameObject.GetComponent<Rigidbody2D>();
      
-
         inputController.StartMoveEvent.AddListener(FlipSprite);
         playerController.UpdateInAirEvent.AddListener(UpdateInAirParam);
     }
@@ -30,7 +29,7 @@ public class PlayerAnimationController : MonoBehaviour
     void Update()
     {
         animator.SetFloat(AnimParamVelocityX, Mathf.Abs(playerRigidBody.velocity.x));
-		animator.SetBool(AnimParamIsJumping, inputController.HasJumpInput);
+		animator.SetBool(AnimParamIsJumping, playerController.IsJumping);
         animator.SetBool(AnimParamIsMidAirJumping, playerController.IsMidAirJumping);
 	}
 

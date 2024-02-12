@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,12 +20,12 @@ public class PlayerController : MonoBehaviour
 
 	public bool IsOnGround { get; private set; } = false;
 	public bool IsOnPlatform { get; private set; } = false;
+	public bool IsJumping { get; set; } = false;
 	public bool IsMidAirJumping { get; set; } = false;
 	public int RemainingJumps { get => remainingJumps; }
 	public int MaxAvailableJumps { get => DefaultJumpCount + ExtraJumps; }
 	public UnityEvent<bool> UpdateInAirEvent { get; private set; } = null;
 	public UnityEvent<bool> UpdateMidAirJumpEvent { get; private set; } = null;
-	public UnityEvent<int> UpdateRemainingJumpsEvent { get; private set; } = null;
 
 	private Rigidbody2D rigidBody = null;
     private InputController inputController = null;
@@ -46,7 +45,6 @@ public class PlayerController : MonoBehaviour
 		inputController.JumpEvent.AddListener(Jump);
 
 		UpdateInAirEvent = new UnityEvent<bool>();
-		UpdateRemainingJumpsEvent = new UnityEvent<int>();
     }
 
 	void StartMoving()
@@ -70,6 +68,8 @@ public class PlayerController : MonoBehaviour
 	{
 		if (hasJumpInput && (remainingJumps > 0))
 		{
+			IsJumping = true;
+
 			if (remainingJumps < DefaultJumpCount + ExtraJumps && remainingJumps > 0)
 				IsMidAirJumping = true;
 
@@ -85,17 +85,17 @@ public class PlayerController : MonoBehaviour
 
 		if (go.TryGetComponent<WalkableObject>(out var walkable))
 		{
-			if(go.transform.position.x > transform.position.x) { }
-
-			ContactPoint2D[] contactPoints = new ContactPoint2D[collision.contactCount];
-			collision.GetContacts(contactPoints);
-
-			if (contactPoints.All(contact => contact.point.y < transform.position.y))
+			if(go.transform.position.y < transform.position.y) 
 			{
 				if (walkable.IsGround) IsOnGround = entering;
 				else if (walkable.IsPlatform) IsOnPlatform = entering;
 
-				if (entering) remainingJumps = DefaultJumpCount + (HasMultiJump ? ExtraJumps : 0);
+				if (entering) 
+				{
+					remainingJumps = DefaultJumpCount + (HasMultiJump ? ExtraJumps : 0);
+					IsJumping = false;
+				} 
+				else if (!IsJumping) remainingJumps--;
 
 				UpdateInAirEvent.Invoke(!(IsOnGround || IsOnPlatform));
 			}
