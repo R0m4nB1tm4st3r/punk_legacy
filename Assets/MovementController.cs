@@ -89,8 +89,16 @@ public class MovementController : MonoBehaviour
 		{
 			if (go.transform.position.y < transform.position.y)
 			{
-				if (walkable.IsGround) IsOnGround = entering;
-				else if (walkable.IsPlatform) IsOnPlatform = entering;
+				if (walkable.IsGround)
+				{
+					IsOnGround = entering;
+					IsOnPlatform = false;
+				}
+				else if (walkable.IsPlatform)
+				{ 
+					IsOnPlatform = entering;
+					IsOnGround = false;
+				}
 
 				if (entering)
 				{
@@ -100,6 +108,11 @@ public class MovementController : MonoBehaviour
 				else if (!IsJumping) remainingJumps--;
 
 				UpdateInAirEvent.Invoke(!(IsOnGround || IsOnPlatform));
+			}
+			else
+			{
+				IsOnGround = false;
+				IsOnPlatform = false;
 			}
 		}
 	}
