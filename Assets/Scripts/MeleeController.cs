@@ -11,6 +11,7 @@ public class MeleeController : MonoBehaviour
 	public UnityEvent<int> UpdateComboCounterEvent { get; private set; } = null;
 
 	private InputController inputController = null;
+	private DamageController damageController = null;
 	private GameObject[] meleeHitBoxes = null;
 
 	IEnumerator punchCoroutine = null;
@@ -23,13 +24,34 @@ public class MeleeController : MonoBehaviour
 	void Start()
     {
 		inputController = FindObjectOfType<InputController>();
+		damageController = GetComponent<DamageController>();
 
-		inputController.FireEvent.AddListener(StartOrEndMelee);
+		EnableMeleeControls();
+		damageController.DieEvent.AddListener(DisableMeleeControls);
 
 		meleeHitBoxes = new GameObject[transform.childCount];
 		for (int i = 0; i < transform.childCount; i++)
 		{
 			meleeHitBoxes[i] = transform.GetChild(i).gameObject;
+		}
+	}
+
+	private void OnDisable()
+	{
+		DisableMeleeControls();
+		damageController.DieEvent.RemoveListener(DisableMeleeControls);
+	}
+
+	void EnableMeleeControls()
+	{
+		inputController.FireEvent.AddListener(StartOrEndMelee);
+	}
+
+	void DisableMeleeControls(bool shouldDisable = true)
+	{
+		if (shouldDisable)
+		{
+			inputController.FireEvent.RemoveListener(StartOrEndMelee);
 		}
 	}
 

@@ -28,6 +28,7 @@ public class MovementController : MonoBehaviour
 
 	private Rigidbody2D rigidBody = null;
 	private InputController inputController = null;
+	private DamageController damageController = null;
 
 	private int remainingJumps = 0;
 	private float targetVelocityX = 0f;
@@ -43,10 +44,17 @@ public class MovementController : MonoBehaviour
     {
 		rigidBody = GetComponent<Rigidbody2D>();
 		inputController = FindObjectOfType<InputController>();
+		damageController = GetComponent<DamageController>();
 
-		inputController.StartMoveEvent.AddListener(StartMoving);
-		inputController.StopMoveEvent.AddListener(StopMoving);
-		inputController.JumpEvent.AddListener(Jump);
+		EnableMovementControls();
+
+		damageController.DieEvent.AddListener(DisableMoveControls);
+	}
+
+	private void OnDisable()
+	{
+		DisableMoveControls();
+		damageController.DieEvent.RemoveListener(DisableMoveControls);
 	}
 
 	void StartMoving()
@@ -59,7 +67,7 @@ public class MovementController : MonoBehaviour
 
 	void StopMoving()
 	{
-		StopCoroutine(moveCoroutine);
+		if (moveCoroutine != null) StopCoroutine(moveCoroutine);
 
 		Vector2 velocity = rigidBody.velocity;
 		velocity.x = targetVelocityX * Time.fixedDeltaTime;
@@ -78,6 +86,25 @@ public class MovementController : MonoBehaviour
 			rigidBody.velocity = new(rigidBody.velocity.x, 0);
 			rigidBody.AddForce(new Vector2(0, JumpStrength), ForceMode2D.Impulse);
 			remainingJumps--;
+		}
+	}
+
+	void EnableMovementControls()
+	{
+		inputController.StartMoveEvent.AddListener(StartMoving);
+		inputController.StopMoveEvent.AddListener(StopMoving);
+		inputController.JumpEvent.AddListener(Jump);
+	}
+ 
+	void DisableMoveControls(bool shouldDisable = true)
+	{
+		if (shouldDisable)
+		{
+			StopMoving();
+
+			inputController.StartMoveEvent.RemoveListener(StartMoving);
+			inputController.StopMoveEvent.RemoveListener(StopMoving);
+			inputController.JumpEvent.RemoveListener(Jump);
 		}
 	}
 
