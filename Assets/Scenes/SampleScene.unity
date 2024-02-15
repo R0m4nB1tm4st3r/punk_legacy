@@ -394,6 +394,40 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &193794859 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3638023815148918979, guid: 264967f3486c266499b08d9edc8da871, type: 3}
+  m_PrefabInstance: {fileID: 562655992826962458}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &193794867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193794859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a1f1872325d0e4e94077ef1e436fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &193794868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193794859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1bed604de16ab4a92bf00bd6e174c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MoveSpeed>k__BackingField: 10
+  <JumpStrength>k__BackingField: 10
+  <AccelerationFactor>k__BackingField: 1
+  <HasMultiJump>k__BackingField: 1
+  <ExtraJumps>k__BackingField: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,10 +1176,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7908284259746411316, guid: 264967f3486c266499b08d9edc8da871, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3638023815148918979, guid: 264967f3486c266499b08d9edc8da871, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 193794868}
+    - targetCorrespondingSourceObject: {fileID: 3638023815148918979, guid: 264967f3486c266499b08d9edc8da871, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 193794867}
   m_SourcePrefab: {fileID: 100100000, guid: 264967f3486c266499b08d9edc8da871, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -13,7 +13,8 @@ public class PlayerAnimationController : MonoBehaviour
 	private Animator animator = null;
     private SpriteRenderer spriteRenderer = null;
 	private InputController inputController = null;
-    private PlayerController playerController = null;
+    private MovementController movementController = null;
+    private MeleeController meleeController = null;
     private Rigidbody2D playerRigidBody = null;
 
 	void Start()
@@ -21,27 +22,28 @@ public class PlayerAnimationController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 		inputController = FindObjectOfType<InputController>();
-        playerController = GetComponent<PlayerController>();
-        playerRigidBody = playerController.gameObject.GetComponent<Rigidbody2D>();
+        movementController = GetComponent<MovementController>();
+        meleeController = GetComponent<MeleeController>();
+        playerRigidBody = movementController.gameObject.GetComponent<Rigidbody2D>();
      
         inputController.StartMoveEvent.AddListener(FlipSprite);
-        playerController.UpdateInAirEvent.AddListener(UpdateInAirParam);
-        playerController.UpdateComboCounterEvent.AddListener(UpdateComboCountParam);
+        movementController.UpdateInAirEvent.AddListener(UpdateInAirParam);
+        meleeController.UpdateComboCounterEvent.AddListener(UpdateComboCountParam);
     }
 
     void Update()
     {
         animator.SetFloat(AnimParamVelocityX, Mathf.Abs(playerRigidBody.velocity.x));
-		animator.SetBool(AnimParamIsJumping, playerController.IsJumping);
-        animator.SetBool(AnimParamIsMidAirJumping, playerController.IsMidAirJumping);
+		animator.SetBool(AnimParamIsJumping, movementController.IsJumping);
+        animator.SetBool(AnimParamIsMidAirJumping, movementController.IsMidAirJumping);
         animator.SetBool(AnimParamIsPunching, inputController.HasFireInput);
 	}
 
 	private void OnDisable()
 	{
 		inputController.StartMoveEvent.RemoveListener(FlipSprite);
-		playerController.UpdateInAirEvent.RemoveListener(UpdateInAirParam);
-		playerController.UpdateComboCounterEvent.RemoveListener(UpdateComboCountParam);
+		movementController.UpdateInAirEvent.RemoveListener(UpdateInAirParam);
+		meleeController.UpdateComboCounterEvent.RemoveListener(UpdateComboCountParam);
 	}
 
 	private void FlipSprite()
