@@ -7,6 +7,8 @@ public class PlayerAnimationController : MonoBehaviour
     private const string AnimParamIsInAir = "IsInAir";
     private const string AnimParamIsJumping = "IsJumping";
     private const string AnimParamIsMidAirJumping = "IsMidAirJumping";
+    private const string AnimParamComboCount = "ComboCount";
+    private const string AnimParamIsPunching = "IsPunching";
 
 	private Animator animator = null;
     private SpriteRenderer spriteRenderer = null;
@@ -24,6 +26,7 @@ public class PlayerAnimationController : MonoBehaviour
      
         inputController.StartMoveEvent.AddListener(FlipSprite);
         playerController.UpdateInAirEvent.AddListener(UpdateInAirParam);
+        playerController.UpdateComboCounterEvent.AddListener(UpdateComboCountParam);
     }
 
     void Update()
@@ -31,22 +34,29 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetFloat(AnimParamVelocityX, Mathf.Abs(playerRigidBody.velocity.x));
 		animator.SetBool(AnimParamIsJumping, playerController.IsJumping);
         animator.SetBool(AnimParamIsMidAirJumping, playerController.IsMidAirJumping);
+        animator.SetBool(AnimParamIsPunching, inputController.HasFireInput);
 	}
 
 	private void OnDisable()
 	{
 		inputController.StartMoveEvent.RemoveListener(FlipSprite);
 		playerController.UpdateInAirEvent.RemoveListener(UpdateInAirParam);
+		playerController.UpdateComboCounterEvent.RemoveListener(UpdateComboCountParam);
 	}
 
 	private void FlipSprite()
     {
-        if (playerRigidBody.velocity.x > 0) spriteRenderer.flipX = false;
-        else if (playerRigidBody.velocity.x < 0) spriteRenderer.flipX = true;
+        if (inputController.MoveVector.x > 0) spriteRenderer.flipX = false;
+        else if (inputController.MoveVector.x < 0) spriteRenderer.flipX = true;
     }
 
     private void UpdateInAirParam (bool isInAir)
     {
 		animator.SetBool(AnimParamIsInAir, isInAir);
 	}
+
+    private void UpdateComboCountParam(int newComboCount)
+    {
+        animator.SetInteger(AnimParamComboCount, newComboCount);
+    }
 }
