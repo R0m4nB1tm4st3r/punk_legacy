@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class MovementController : MonoBehaviour
 {
 	private const int DefaultJumpCount = 1;
+	private const string WalkableLayerName = "Walkable";
 
 	[field: SerializeField]
 	float MoveSpeed { get; set; } = 10f;
@@ -17,16 +19,20 @@ public class MovementController : MonoBehaviour
 	[field: SerializeField]
 	int ExtraJumps { get; set; } = 1;
 
-	public bool IsOnGround { get; private set; } = false;
-	public bool IsOnPlatform { get; private set; } = false;
+	[field: SerializeField]
+	public bool IsOnGround { get; set; } = false;
+	[field: SerializeField]
+	public bool IsOnPlatform { get; set; } = false;
 	public bool IsJumping { get; set; } = false;
 	public bool IsMidAirJumping { get; set; } = false;
 	public int RemainingJumps { get => remainingJumps; }
 	public int MaxAvailableJumps { get => DefaultJumpCount + ExtraJumps; }
+	public Vector2 ColliderSize { get => playerCollider.size; }
 	public UnityEvent<bool> UpdateInAirEvent { get; private set; } = null;
 	public UnityEvent<bool> UpdateMidAirJumpEvent { get; private set; } = null;
 
 	private Rigidbody2D rigidBody = null;
+	private CapsuleCollider2D playerCollider = null;
 	private InputController inputController = null;
 	private DamageController damageController = null;
 
@@ -43,6 +49,7 @@ public class MovementController : MonoBehaviour
 	void Start()
     {
 		rigidBody = GetComponent<Rigidbody2D>();
+		playerCollider = GetComponent<CapsuleCollider2D>();
 		inputController = FindObjectOfType<InputController>();
 		damageController = GetComponent<DamageController>();
 
@@ -114,7 +121,14 @@ public class MovementController : MonoBehaviour
 
 		if (go.TryGetComponent<WalkableObject>(out var walkable))
 		{
-			if (go.transform.position.y < transform.position.y)
+			RaycastHit2D[] hits = Physics2D.CircleCastAll(
+				transform.position,
+				ColliderSize.y,
+				Vector2.zero,
+				ColliderSize.y / 2,
+				LayerMask.GetMask(WalkableLayerName));
+
+			if (hits.All(hit => hit.point.y < transform.position.y))
 			{
 				if (walkable.IsGround)
 				{
