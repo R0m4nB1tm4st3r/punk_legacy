@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4104605112260572495}
   - component: {fileID: 8986035319756739715}
   - component: {fileID: 1912891310836014173}
+  - component: {fileID: 2908252295726850662}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -230,6 +231,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6acd9266fe60f43895adc0f766b732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2908252295726850662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3638023815148918979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6530017c84081ee48888400a6f251ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   <InitialStats>k__BackingField: {fileID: 11400000, guid: 92ce5adba76729d42b4d41aa56e705f3, type: 2}
   <CurrentHp>k__BackingField: 0
   <MaxHp>k__BackingField: 0
@@ -244,14 +257,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9156968130305603917}
-  - component: {fileID: 6221521285685876560}
+  - component: {fileID: 2957518867363358581}
   m_Layer: 0
   m_Name: Melee Attack Hitbox 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9156968130305603917
 Transform:
   m_ObjectHideFlags: 0
@@ -267,41 +280,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8234682353189108056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &6221521285685876560
-CircleCollider2D:
+--- !u!114 &2957518867363358581
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6766434702219416030}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b91623da18a6a14bb789937f48cdb42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <AtkRange>k__BackingField: 1
+  <AtkMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+    m_Bits: 64
+  <Power>k__BackingField: 60
+  <DmgModificator>k__BackingField: 1.25
 --- !u!1 &7446506566267274712
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,14 +307,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7412893528860234731}
-  - component: {fileID: 8392965817492918755}
+  - component: {fileID: 2212885300895224746}
   m_Layer: 0
   m_Name: Melee Attack Hitbox 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7412893528860234731
 Transform:
   m_ObjectHideFlags: 0
@@ -334,41 +330,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8234682353189108056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &8392965817492918755
-CapsuleCollider2D:
+--- !u!114 &2212885300895224746
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7446506566267274712}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b91623da18a6a14bb789937f48cdb42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <AtkRange>k__BackingField: 0.75
+  <AtkMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.41, y: 0.41}
-  m_Direction: 1
+    m_Bits: 64
+  <Power>k__BackingField: 60
+  <DmgModificator>k__BackingField: 0.75
 --- !u!1 &7670861682051102816
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,14 +357,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8458870801502606123}
-  - component: {fileID: 414892716443261658}
+  - component: {fileID: 5342380154875700632}
   m_Layer: 0
   m_Name: Melee Attack Hitbox 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8458870801502606123
 Transform:
   m_ObjectHideFlags: 0
@@ -401,38 +380,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8234682353189108056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &414892716443261658
-CapsuleCollider2D:
+--- !u!114 &5342380154875700632
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7670861682051102816}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b91623da18a6a14bb789937f48cdb42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <AtkRange>k__BackingField: 0.85
+  <AtkMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.61, y: 0.41}
-  m_Direction: 1
+    m_Bits: 64
+  <Power>k__BackingField: 60
+  <DmgModificator>k__BackingField: 0.5

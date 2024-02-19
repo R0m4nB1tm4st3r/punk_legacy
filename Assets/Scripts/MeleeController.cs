@@ -12,7 +12,7 @@ public class MeleeController : MonoBehaviour
 
 	private InputController inputController = null;
 	private DamageController damageController = null;
-	private GameObject[] meleeHitBoxes = null;
+	private HitBoxController[] meleeHitBoxes = null;
 
 	IEnumerator punchCoroutine = null;
 
@@ -29,10 +29,10 @@ public class MeleeController : MonoBehaviour
 		EnableMeleeControls();
 		damageController.DieEvent.AddListener(DisableMeleeControls);
 
-		meleeHitBoxes = new GameObject[transform.childCount];
+		meleeHitBoxes = new HitBoxController[transform.childCount];
 		for (int i = 0; i < transform.childCount; i++)
 		{
-			meleeHitBoxes[i] = transform.GetChild(i).gameObject;
+			meleeHitBoxes[i] = transform.GetChild(i).gameObject.GetComponent<HitBoxController>();
 		}
 	}
 
@@ -69,14 +69,9 @@ public class MeleeController : MonoBehaviour
 		}
 	}
 
-	public void SpawnMeleeHitbox(int hitboxIndex)
+	public void TriggerHit(int hitboxIndex)
 	{
-		meleeHitBoxes[hitboxIndex].SetActive(true);
-	}
-
-	public void DespawnMeleeHitbox(int hitboxIndex)
-	{
-		meleeHitBoxes[hitboxIndex].SetActive(false);
+		meleeHitBoxes[hitboxIndex].Attack();
 	}
 
 	public void IndicatePunchAnimationEnd()

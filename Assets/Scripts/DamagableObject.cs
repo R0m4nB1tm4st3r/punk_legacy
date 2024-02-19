@@ -1,36 +1,29 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(StatsContainer))]
 public abstract class DamagableObject : MonoBehaviour, IDamagable
 {
-	[field: SerializeField]
-	public Stats InitialStats { get; set; }
-	[field: SerializeField]
-	public float CurrentHp { get; set; }
-	[field: SerializeField]
-	public float MaxHp { get; set; }
-	[field: SerializeField]
-	public float Atk { get; set; }
-	[field: SerializeField]
-	public float Def { get; set; }
-
+	public float CurrentHp { get => statsContainer.CurrentHp; set => statsContainer.CurrentHp = value; }
+	public float MaxHp { get => statsContainer.MaxHp; set => statsContainer.MaxHp = value; }
+	public float Atk { get => statsContainer.Atk; set => statsContainer.Atk = value; }
+	public float Def { get => statsContainer.Def; set => statsContainer.Def = value; }
 	public UnityEvent<bool> DieEvent { get; protected set; }
+
+	protected StatsContainer statsContainer = null;
 
 	protected bool isDead = false;
 
 	protected void Start()
 	{
-		CurrentHp = InitialStats.CurrentHp;
-		MaxHp = InitialStats.MaxHp;
-		Atk = InitialStats.Atk;
-		Def = InitialStats.Def;
+		statsContainer = GetComponent<StatsContainer>();
 
 		DieEvent = new UnityEvent<bool>();
 
-		Debug.Log($"Max HP: {InitialStats.MaxHp}");
-		Debug.Log($"Current HP: {InitialStats.CurrentHp}");
-		Debug.Log($"Atk: {InitialStats.Atk}");
-		Debug.Log($"Def: {InitialStats.Def}");
+		Debug.Log($"Max HP: {MaxHp}");
+		Debug.Log($"Current HP: {CurrentHp}");
+		Debug.Log($"Atk: {Atk}");
+		Debug.Log($"Def: {Def}");
 	}
 
 	public void Die()
@@ -44,7 +37,7 @@ public abstract class DamagableObject : MonoBehaviour, IDamagable
 		CurrentHp = Mathf.Clamp(CurrentHp + hp, CurrentHp, MaxHp);
 	}
 
-	public void ReceiveDamage(float dmg)
+	public virtual void ReceiveDamage(float dmg)
 	{
 		CurrentHp = Mathf.Clamp(CurrentHp - dmg, 0, MaxHp);
 
