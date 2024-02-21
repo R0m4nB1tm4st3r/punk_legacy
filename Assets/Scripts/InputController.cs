@@ -9,7 +9,7 @@ public class InputController : MonoBehaviour
 	[field: SerializeField]
 	public Vector2 AimVector { get; private set; } = Vector2.zero;
 	[field: SerializeField]
-	public bool HasFireInput { get; private set; } = false;
+	public bool HasPunchInput { get; private set; } = false;
 	[field: SerializeField]
 	public bool HasJumpInput { get; set; } = false;
 	[field: SerializeField]
@@ -17,7 +17,7 @@ public class InputController : MonoBehaviour
 
 	public UnityEvent StartMoveEvent { get; private set; } = null;
 	public UnityEvent StopMoveEvent { get; private set; } = null;
-	public UnityEvent<bool> FireEvent { get; private set; } = null;
+	public UnityEvent<bool> PunchEvent { get; private set; } = null;
     public UnityEvent<bool> JumpEvent { get; private set; } = null;
     public UnityEvent<bool> InteractEvent { get; private set; } = null;
 
@@ -25,13 +25,13 @@ public class InputController : MonoBehaviour
 	{
 		StartMoveEvent = new UnityEvent();
 		StopMoveEvent = new UnityEvent();
-		FireEvent = new UnityEvent<bool>();
+		PunchEvent = new UnityEvent<bool>();
 		JumpEvent = new UnityEvent<bool>();
 		InteractEvent = new UnityEvent<bool>();
 
 		StartMoveEvent.AddListener(LogStartMove);
 		StopMoveEvent.AddListener(LogStopMove);
-		FireEvent.AddListener(LogFire);
+		PunchEvent.AddListener(LogPunch);
 		JumpEvent.AddListener(LogJump);
 		InteractEvent.AddListener(LogInteract);
 	}
@@ -40,7 +40,7 @@ public class InputController : MonoBehaviour
 	{
 		StartMoveEvent.RemoveAllListeners();
 		StopMoveEvent.RemoveAllListeners();
-		FireEvent.RemoveAllListeners();
+		PunchEvent.RemoveAllListeners();
 		JumpEvent.RemoveAllListeners();
 		InteractEvent.RemoveAllListeners();
 	}
@@ -55,9 +55,9 @@ public class InputController : MonoBehaviour
 		Debug.Log($"stop move: {MoveVector.x}");
 	}
 
-	private void LogFire(bool isFiring)
+	private void LogPunch(bool isPunching)
     {
-        Debug.Log($"is firing: {isFiring}");
+        Debug.Log($"is punching: {isPunching}");
     }
 
 	private void LogJump(bool isJumping)
@@ -89,10 +89,10 @@ public class InputController : MonoBehaviour
         AimVector  = context.ReadValue<Vector2>();
     }
 
-	public void OnFire(InputAction.CallbackContext context)
+	public void OnPunch(InputAction.CallbackContext context)
 	{
-		HasFireInput = context.ReadValueAsButton();
-        FireEvent.Invoke(HasFireInput);
+		HasPunchInput = context.ReadValueAsButton();
+        PunchEvent.Invoke(HasPunchInput);
 	}
 
     public void OnJump(InputAction.CallbackContext context)

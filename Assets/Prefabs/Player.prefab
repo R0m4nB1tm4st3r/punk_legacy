@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 2908252295726850662}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,6 +207,8 @@ MonoBehaviour:
   <AccelerationFactor>k__BackingField: 1
   <HasMultiJump>k__BackingField: 1
   <ExtraJumps>k__BackingField: 1
+  <IsOnGround>k__BackingField: 0
+  <IsOnPlatform>k__BackingField: 0
 --- !u!114 &8986035319756739715
 MonoBehaviour:
   m_ObjectHideFlags: 0

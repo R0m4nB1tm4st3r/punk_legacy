@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public class PlayerController : MonoBehaviour
 {
 	private const int DefaultJumpCount = 1;
-	private const int MaxComboCount = 3;
 
     [field: SerializeField]
     float MoveSpeed { get; set; } = 10f;
@@ -33,13 +32,11 @@ public class PlayerController : MonoBehaviour
 
 	private Rigidbody2D rigidBody = null;
     private InputController inputController = null;
-	private GameObject[] meleeHitBoxes = null;
 
 	private int remainingJumps = 0;
 	private float targetVelocityX = 0f;
 	Vector2 targetVelocity = Vector2.zero;
 	IEnumerator moveCoroutine = null;
-	IEnumerator punchCoroutine = null;
 
 	private void Awake()
 	{
@@ -55,13 +52,6 @@ public class PlayerController : MonoBehaviour
 		inputController.StartMoveEvent.AddListener(StartMoving);
 		inputController.StopMoveEvent.AddListener(StopMoving);
 		inputController.JumpEvent.AddListener(Jump);
-		inputController.FireEvent.AddListener(StartOrEndMelee);
-
-		meleeHitBoxes = new GameObject[transform.childCount];
-		for (int i = 0; i < transform.childCount; i++)
-		{
-			meleeHitBoxes[i] = transform.GetChild(i).gameObject;
-		}
     }
 
 	void StartMoving()
@@ -94,35 +84,6 @@ public class PlayerController : MonoBehaviour
 			rigidBody.AddForce(new Vector2(0, JumpStrength), ForceMode2D.Impulse);
 			remainingJumps--;
 		}
-	}
-
-	void StartOrEndMelee(bool hasInput)
-	{
-		if (hasInput)
-		{
-			punchCoroutine = Punch();
-			StartCoroutine(punchCoroutine);
-		}
-		else
-		{
-			if (punchCoroutine != null) StopCoroutine(punchCoroutine);
-			ComboCount = 0;
-		}
-	}
-
-	public void SpawnMeleeHitbox(int hitboxIndex)
-	{
-		meleeHitBoxes[hitboxIndex].SetActive(true);
-	}
-
-	public void DespawnMeleeHitbox(int hitboxIndex)
-	{
-		meleeHitBoxes[hitboxIndex].SetActive(false);
-	}
-
-	public void IndicatePunchAnimationEnd()
-	{
-		HasPunchAnimationEnded = true;
 	}
 
 	void CheckWalkableCollision(Collision2D collision, bool entering)
@@ -160,17 +121,6 @@ public class PlayerController : MonoBehaviour
 				AccelerationFactor);
 
 			yield return new WaitForFixedUpdate();
-		}
-	}
-
-	IEnumerator Punch()
-	{
-		while (true)
-		{
-			HasPunchAnimationEnded = false;
-			ComboCount = (ComboCount % MaxComboCount) + 1;
-			UpdateComboCounterEvent.Invoke(ComboCount);
-			yield return new WaitUntil(() => HasPunchAnimationEnded);
 		}
 	}
 

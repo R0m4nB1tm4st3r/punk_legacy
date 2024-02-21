@@ -44,14 +44,14 @@ public class MeleeController : MonoBehaviour
 
 	void EnableMeleeControls()
 	{
-		inputController.FireEvent.AddListener(StartOrEndMelee);
+		inputController.PunchEvent.AddListener(StartOrEndMelee);
 	}
 
 	void DisableMeleeControls(bool shouldDisable = true)
 	{
 		if (shouldDisable)
 		{
-			inputController.FireEvent.RemoveListener(StartOrEndMelee);
+			inputController.PunchEvent.RemoveListener(StartOrEndMelee);
 		}
 	}
 

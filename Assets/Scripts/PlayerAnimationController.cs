@@ -40,7 +40,7 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetFloat(AnimParamVelocityX, Mathf.Abs(playerRigidBody.velocity.x));
 		animator.SetBool(AnimParamIsJumping, movementController.IsJumping);
         animator.SetBool(AnimParamIsMidAirJumping, movementController.IsMidAirJumping);
-        animator.SetBool(AnimParamIsPunching, inputController.HasFireInput);
+        animator.SetBool(AnimParamIsPunching, inputController.HasPunchInput);
 	}
 
 	private void OnDisable()
