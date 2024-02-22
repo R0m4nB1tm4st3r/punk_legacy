@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6530017c84081ee48888400a6f251ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <InitialStats>k__BackingField: {fileID: 11400000, guid: 92ce5adba76729d42b4d41aa56e705f3, type: 2}
+  <InitialStats>k__BackingField: {fileID: 11400000, guid: 55f19e4ed8f3ab6468a13f0c6cae2ef2, type: 2}
   <CurrentHp>k__BackingField: 0
   <MaxHp>k__BackingField: 0
   <Atk>k__BackingField: 0
