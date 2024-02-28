@@ -1,16 +1,19 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent (typeof(Rigidbody2D), typeof(CapsuleCollider2D), typeof(CircleCollider2D))]
 public class EnemyController : MonoBehaviour
 {
+    private const string UnlockableTagPrefix = "Unlockable-";
+
     [field: SerializeField]
     public float PlayerDetectRange { get; set; } = 4f;
     [field: SerializeField]
     public float MoveSpeed { get; set; } = 9f;
     [field: SerializeField]
     public float DirectionChangeIntervalSeconds { get; set; } = 2.5f;
+    [field: SerializeField]
+    public string UnlockableId = "01";
 
 	public bool IsAttackingPlayer { get; private set; } = false;
     public bool IsPlayerLeft { get => transform.position.x > player.transform.position.x; }
@@ -25,6 +28,7 @@ public class EnemyController : MonoBehaviour
 	private CircleCollider2D playerDetector = null;
     private Rigidbody2D rigidBody = null;
     private GameObject player = null;
+    private GameObject unlockable = null;
     private DamageController damageController = null;
     
     private IEnumerator patrolCoroutine = null;
@@ -36,6 +40,7 @@ public class EnemyController : MonoBehaviour
         playerDetector = GetComponent<CircleCollider2D>();
         rigidBody = GetComponent<Rigidbody2D>();
         damageController = GetComponent<DamageController>();
+        unlockable = GameObject.FindWithTag($"{UnlockableTagPrefix}{UnlockableId}");
 
         playerDetector.radius = PlayerDetectRange;
 
@@ -47,6 +52,11 @@ public class EnemyController : MonoBehaviour
 	private void OnDisable()
 	{
 		damageController.ReceiveDmgEvent.RemoveListener(SuspendActions);
+	}
+
+	private void OnDestroy()
+	{
+        if (unlockable != null) unlockable.SetActive(true);
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)

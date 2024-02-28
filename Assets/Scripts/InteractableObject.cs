@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider2D))]
 public abstract class InteractableObject : MonoBehaviour
 {
-    public abstract float InteractRange { get; }
+    public abstract float InteractRange { get; set; }
     public virtual string InteractText { get; } = "Interact";
 
     protected InputController inputController = null;
@@ -28,13 +28,18 @@ public abstract class InteractableObject : MonoBehaviour
 		textPrompt.text = InteractText;
 
 		// hide interact canvas by default
-		interactCanvas.enabled = false;
+		SwitchButtonPrompt(false);
+	}
+
+	protected virtual void SwitchButtonPrompt(bool shouldBeEnabled)
+	{
+		interactCanvas.enabled = shouldBeEnabled;
 	}
 
 	protected void OnTriggerEnter2D(Collider2D other)
     {
         // show interact canvas
-        interactCanvas.enabled = true;
+        SwitchButtonPrompt(true);
 
 		// listen to interact event
 		inputController.InteractEvent.AddListener(Interact);
@@ -43,7 +48,7 @@ public abstract class InteractableObject : MonoBehaviour
 	protected void OnTriggerExit2D(Collider2D other)
 	{
 		// hide interact canvas
-		interactCanvas.enabled = false;
+		SwitchButtonPrompt(false);
 
 		// unlisten to interact event
 		inputController.InteractEvent.RemoveListener(Interact);
