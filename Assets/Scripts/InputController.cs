@@ -20,32 +20,49 @@ public class InputController : MonoBehaviour
 	public UnityEvent<bool> PunchEvent { get; private set; } = null;
     public UnityEvent<bool> JumpEvent { get; private set; } = null;
     public UnityEvent<bool> InteractEvent { get; private set; } = null;
+	public UnityEvent PauseEvent { get; private set; } = null;
+    public UnityEvent UnPauseEvent { get; private set; } = null;
 
-	private void Awake()
+	private PlayerInput playerInput = null;
+
+    private void Awake()
 	{
 		StartMoveEvent = new UnityEvent();
 		StopMoveEvent = new UnityEvent();
 		PunchEvent = new UnityEvent<bool>();
 		JumpEvent = new UnityEvent<bool>();
 		InteractEvent = new UnityEvent<bool>();
+		PauseEvent = new UnityEvent();
+		UnPauseEvent = new UnityEvent();
+
+        playerInput = GetComponent<PlayerInput>();
 
 		StartMoveEvent.AddListener(LogStartMove);
 		StopMoveEvent.AddListener(LogStopMove);
 		PunchEvent.AddListener(LogPunch);
 		JumpEvent.AddListener(LogJump);
 		InteractEvent.AddListener(LogInteract);
+		PauseEvent.AddListener(PauseInput);
+		UnPauseEvent.AddListener(UnPauseInput);
 	}
 
 	private void OnDisable()
 	{
-		StartMoveEvent.RemoveAllListeners();
-		StopMoveEvent.RemoveAllListeners();
-		PunchEvent.RemoveAllListeners();
-		JumpEvent.RemoveAllListeners();
-		InteractEvent.RemoveAllListeners();
+		
 	}
 
-	private void LogStartMove()
+    private void OnDestroy()
+    {
+        StartMoveEvent.RemoveAllListeners();
+        StopMoveEvent.RemoveAllListeners();
+        PunchEvent.RemoveAllListeners();
+        JumpEvent.RemoveAllListeners();
+        InteractEvent.RemoveAllListeners();
+        PauseEvent.RemoveAllListeners();
+        UnPauseEvent.RemoveAllListeners();
+    }
+
+    private void LogStartMove()
 	{
 		Debug.Log($"start move: {MoveVector.x}");
 	}
@@ -70,7 +87,17 @@ public class InputController : MonoBehaviour
 		Debug.Log($"is interacting: {isInteracting}");
 	}
 
-	public void OnMove(InputAction.CallbackContext context)
+	private void PauseInput()
+	{
+		playerInput.DeactivateInput();
+	}
+
+    private void UnPauseInput()
+    {
+        playerInput.ActivateInput();
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
     {
         MoveVector = context.ReadValue<Vector2>();
 
@@ -106,4 +133,17 @@ public class InputController : MonoBehaviour
         HasInteractInput = context.ReadValueAsButton();
         InteractEvent.Invoke(HasInteractInput);
     }
+
+	public void OnPause(InputAction.CallbackContext context)
+	{
+		if (context.ReadValueAsButton())
+		{
+			PauseEvent.Invoke();
+		}
+	}
+
+	public void OnClickResumeButton()
+	{
+		UnPauseEvent.Invoke();
+	}
 }
