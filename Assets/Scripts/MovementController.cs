@@ -162,7 +162,7 @@ public class MovementController : MonoBehaviour
 	{
 		while (true)
 		{
-			targetVelocity = new(targetVelocityX, rigidBody.velocity.y);
+			targetVelocity = new(inputController.MoveVector.x * MoveSpeed, rigidBody.velocity.y);
 
 			rigidBody.velocity = Vector2.MoveTowards(
 				rigidBody.velocity,
