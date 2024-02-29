@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Door-01
   - Unlockable-01
+  - UI
   layers:
   - Default
   - TransparentFX
