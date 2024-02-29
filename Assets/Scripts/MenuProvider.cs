@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuProvider : MonoBehaviour
 {
@@ -13,4 +14,13 @@ public class MenuProvider : MonoBehaviour
 
     public GameObject TopLevelMenu { get => transform.GetChild(TopLevelMenuChildIndex).gameObject; }
     public GameObject SettingsMenu { get => transform.GetChild(SettingsMenuChildIndex).gameObject; }
+
+    private GameManager gameManager = null;
+
+    private void OnEnable()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+
+        SettingsMenu.GetComponentInChildren<Slider>().value = gameManager.MasterVolume;
+    }
 }

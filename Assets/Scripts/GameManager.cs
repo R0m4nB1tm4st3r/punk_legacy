@@ -4,7 +4,9 @@ public class GameManager : MonoBehaviour
 {
     private const int GameEntrySceneId = 0;
     private const int Level01SceneId = 1;
+    private const float MasterVolumeDefault = 1.0f;
     private const string UIMainTag = "UI";
+    private const string PlayerPrefsMasterVolumeKey = "MasterVolume";
 
     [field: SerializeField]
     public float MasterVolume { get; set; } = 1f;
@@ -24,9 +26,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (!PlayerPrefs.HasKey(PlayerPrefsMasterVolumeKey))
+            PlayerPrefs.SetFloat(PlayerPrefsMasterVolumeKey, MasterVolumeDefault);
+
+        MasterVolume = PlayerPrefs.GetFloat(PlayerPrefsMasterVolumeKey, MasterVolumeDefault);
+    }
+
+    private void OnDisable()
+    {
+        PlayerPrefs.SetFloat(PlayerPrefsMasterVolumeKey, MasterVolume);
+    }
+
     public void StartGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(Level01SceneId);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(Level01SceneId);
     }
 
     public void GoToSettings()
@@ -37,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(Level01SceneId);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(Level01SceneId);
     }
 
     public void GoBackToTopLevelMenu()
@@ -48,7 +63,7 @@ public class GameManager : MonoBehaviour
 
     public void GoBackToMainScreen()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(GameEntrySceneId);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(GameEntrySceneId);
     }
 
     public void QuitGame()
