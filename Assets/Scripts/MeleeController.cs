@@ -6,6 +6,9 @@ public class MeleeController : MonoBehaviour
 {
 	private const int MaxComboCount = 3;
 
+	[field: SerializeField]
+	public AudioClip PunchClip {  get; set; } = null;
+
 	public bool HasPunchAnimationEnded { get; set; } = false;
 	public int ComboCount { get; private set; } = 0;
 	public UnityEvent<int> UpdateComboCounterEvent { get; private set; } = null;
@@ -13,6 +16,8 @@ public class MeleeController : MonoBehaviour
 	private InputController inputController = null;
 	private DamageController damageController = null;
 	private HitBoxController[] meleeHitBoxes = null;
+	private GameManager gameManager = null;
+	private AudioSource audioSource = null;
 
 	IEnumerator punchCoroutine = null;
 
@@ -25,6 +30,7 @@ public class MeleeController : MonoBehaviour
     {
 		inputController = FindObjectOfType<InputController>();
 		damageController = GetComponent<DamageController>();
+		audioSource = GetComponent<AudioSource>();
 
 		EnableMeleeControls();
 		damageController.DieEvent.AddListener(DisableMeleeControls);
@@ -36,7 +42,13 @@ public class MeleeController : MonoBehaviour
 		}
 	}
 
-	private void OnDisable()
+    private void OnEnable()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+		gameManager.ChangeVolumeEvent.AddListener((float newVolume) => audioSource.volume = newVolume);
+    }
+
+    private void OnDisable()
 	{
 		DisableMeleeControls();
 		damageController.DieEvent.RemoveListener(DisableMeleeControls);
@@ -72,6 +84,11 @@ public class MeleeController : MonoBehaviour
 	public void TriggerHit(int hitboxIndex)
 	{
 		meleeHitBoxes[hitboxIndex].Attack();
+	}
+
+	public void PlayPunchSound()
+	{
+		audioSource.PlayOneShot(PunchClip);
 	}
 
 	public void IndicatePunchAnimationEnd()

@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,9 +12,22 @@ public class GameManager : MonoBehaviour
 
     [field: SerializeField]
     public float MasterVolume { get; set; } = 1f;
+    [field: SerializeField]
+    public AudioClip GameEntryMusic { get; set; } = null;
+    [field: SerializeField]
+    public AudioClip Level01Music { get; set; } = null;
+
+    public UnityEvent<float> ChangeVolumeEvent = null;
 
     private MenuProvider menuProvider = null;
     private InputController inputController = null;
+    private AudioSource audioSource = null;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        ChangeVolumeEvent = new UnityEvent<float>();
+    }
 
     void Start()
     {
@@ -32,16 +47,25 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetFloat(PlayerPrefsMasterVolumeKey, MasterVolumeDefault);
 
         MasterVolume = PlayerPrefs.GetFloat(PlayerPrefsMasterVolumeKey, MasterVolumeDefault);
+        audioSource.volume = MasterVolume;
+
+        if(SceneManager.GetActiveScene().buildIndex == GameEntrySceneId)
+            audioSource.clip = GameEntryMusic;
+        else
+            audioSource.clip = Level01Music;
+
+        audioSource.Play();
     }
 
     private void OnDisable()
     {
         PlayerPrefs.SetFloat(PlayerPrefsMasterVolumeKey, MasterVolume);
+        ChangeVolumeEvent.RemoveAllListeners();
     }
 
     public void StartGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(Level01SceneId);
+        SceneManager.LoadScene(Level01SceneId);
     }
 
     public void GoToSettings()
@@ -53,6 +77,13 @@ public class GameManager : MonoBehaviour
     public void RestartLevel()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(Level01SceneId);
+    }
+
+    public void ChangeMasterVolume(float newVolume)
+    {
+        MasterVolume = newVolume;
+        audioSource.volume = MasterVolume;
+        ChangeVolumeEvent.Invoke(newVolume);
     }
 
     public void GoBackToTopLevelMenu()
