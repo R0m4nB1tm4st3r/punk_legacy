@@ -28,11 +28,6 @@ public abstract class DamagableObject : MonoBehaviour, IDamagable
 	protected void Start()
 	{
 		statsContainer = GetComponent<StatsContainer>();
-
-		Debug.Log($"Max HP: {MaxHp}");
-		Debug.Log($"Current HP: {CurrentHp}");
-		Debug.Log($"Atk: {Atk}");
-		Debug.Log($"Def: {Def}");
 	}
 
 	public void Die()

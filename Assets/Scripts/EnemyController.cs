@@ -41,6 +41,7 @@ public class EnemyController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         damageController = GetComponent<DamageController>();
         unlockable = GameObject.FindWithTag($"{UnlockableTagPrefix}{UnlockableId}");
+        unlockable.SetActive( false );
 
         playerDetector.radius = PlayerDetectRange;
 
