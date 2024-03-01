@@ -7,6 +7,10 @@ TagManager:
   - Door-01
   - Unlockable-01
   - UI
+  - Door-00
+  - Unlockable-00
+  - Door-02
+  - Boss
   layers:
   - Default
   - TransparentFX

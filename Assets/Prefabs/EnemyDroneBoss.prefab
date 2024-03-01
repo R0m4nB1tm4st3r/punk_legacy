@@ -289,8 +289,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: 0}
-  m_SizeDelta: {x: -4, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5166138736497547396
 MonoBehaviour:
@@ -448,8 +448,8 @@ GameObject:
   - component: {fileID: 2155240022323710901}
   - component: {fileID: 1191685675109411810}
   m_Layer: 6
-  m_Name: EnemyDrone01
-  m_TagString: Untagged
+  m_Name: EnemyDroneBoss
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -464,7 +464,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -62, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 752617449393564475}
@@ -511,7 +511,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1827750486, guid: 112f96b70276da140be980fc75415ed8, type: 3}
+  m_Sprite: {fileID: 1440885281, guid: faf1047cb5af5d447bebcecfb53c6af1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6530017c84081ee48888400a6f251ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <InitialStats>k__BackingField: {fileID: 11400000, guid: 5a9aa47f27af00d4b97ba41d4a8d5b10, type: 2}
+  <InitialStats>k__BackingField: {fileID: 11400000, guid: acd311f04444744479f68ab3a2ba73a7, type: 2}
   <CurrentHp>k__BackingField: 0
   <MaxHp>k__BackingField: 0
   <Atk>k__BackingField: 0
@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6acd9266fe60f43895adc0f766b732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <RecoveryTimeSeconds>k__BackingField: 1
+  <RecoveryTimeSeconds>k__BackingField: 0.6
   <DieClip>k__BackingField: {fileID: 0}
 --- !u!114 &578231945375733539
 MonoBehaviour:
@@ -565,10 +565,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b40a201ec2845e4fbe6daae37a5f4a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PlayerDetectRange>k__BackingField: 2.5
-  <MoveSpeed>k__BackingField: 6
+  <PlayerDetectRange>k__BackingField: 4
+  <MoveSpeed>k__BackingField: 8
   <DirectionChangeIntervalSeconds>k__BackingField: 1.25
-  UnlockableId: 01
+  UnlockableId: 00
 --- !u!50 &1569656746807251523
 Rigidbody2D:
   serializedVersion: 4
@@ -676,7 +676,7 @@ Animator:
   m_GameObject: {fileID: 7499810089463784789}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 485d55db28429564f9752e6cb510a741, type: 2}
+  m_Controller: {fileID: 9100000, guid: 42f036af76beb114fa923ba7401cc7bc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -715,8 +715,8 @@ MonoBehaviour:
   <AtkMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
-  <Power>k__BackingField: 30
-  <DmgModificator>k__BackingField: 1
+  <Power>k__BackingField: 50
+  <DmgModificator>k__BackingField: 1.1
 --- !u!1 &8615932953156288256
 GameObject:
   m_ObjectHideFlags: 0

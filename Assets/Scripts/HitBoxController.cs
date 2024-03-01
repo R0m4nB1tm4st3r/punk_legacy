@@ -10,10 +10,28 @@ public class HitBoxController : DamageDealerObject
 	public override float RawDmg { get => (Power + stats.Atk) * DmgModificator; }
 
 	private StatsContainer stats = null;
+    private InputController inputController = null;
+    private float localPositionOffset;
 
     void Start()
     {
-        stats = transform.parent.GetComponent<StatsContainer>();
+        localPositionOffset = transform.localPosition.x;
+        stats = transform.parent.gameObject.GetComponent<StatsContainer>();
         Debug.Log($"atk in parent: {stats.Atk}");
+
+        inputController = FindObjectOfType<InputController>();
+        inputController.StartMoveEvent.AddListener(PlaceHitbox);
     }
+
+    private void PlaceHitbox()
+    {
+        if (inputController.MoveVector.x < 0) 
+		    transform.position = new Vector2(
+				transform.parent.position.x - localPositionOffset,
+				transform.position.y);
+        else
+			transform.position = new Vector2(
+				transform.parent.position.x + localPositionOffset,
+				transform.position.y);
+	}
 }

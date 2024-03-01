@@ -1,10 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent (typeof(Rigidbody2D), typeof(CapsuleCollider2D), typeof(CircleCollider2D))]
 public class EnemyController : MonoBehaviour
 {
-    private const string UnlockableTagPrefix = "Unlockable-";
+	private const string BossTag = "Boss";
+	private const string UnlockableTagPrefix = "Unlockable-";
+    private const float ReturnToMainMenuDelay = 2f;
 
     [field: SerializeField]
     public float PlayerDetectRange { get; set; } = 4f;
@@ -30,6 +33,7 @@ public class EnemyController : MonoBehaviour
     private GameObject player = null;
     private GameObject unlockable = null;
     private DamageController damageController = null;
+    private GameManager gameManager = null;
     
     private IEnumerator patrolCoroutine = null;
     private IEnumerator chaseCoroutine = null;
@@ -41,13 +45,18 @@ public class EnemyController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         damageController = GetComponent<DamageController>();
         unlockable = GameObject.FindWithTag($"{UnlockableTagPrefix}{UnlockableId}");
-        unlockable.SetActive( false );
+        gameManager = FindObjectOfType<GameManager>();
+
+        if (unlockable != null) unlockable.SetActive( false );
 
         playerDetector.radius = PlayerDetectRange;
 
         damageController.ReceiveDmgEvent.AddListener(SuspendActions);
 
-        StartPatroling();
+        if (gameObject.CompareTag(BossTag))
+            damageController.DieEvent.AddListener((bool isDead) => { if (isDead) gameManager.GoBackToMainScreen(); });
+
+		StartPatroling();
     }
 
 	private void OnDisable()
@@ -102,7 +111,6 @@ public class EnemyController : MonoBehaviour
 
     private void SuspendActions()
     {
-        Debug.Log("SUSPENDING ACTIONS");
         rigidBody.velocity = Vector2.zero;
 
         if (IsAttackingPlayer)
@@ -147,4 +155,5 @@ public class EnemyController : MonoBehaviour
         if (IsAttackingPlayer) StartChasing();
         else StartPatroling();
     }
+
 }
