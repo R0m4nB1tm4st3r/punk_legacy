@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class InteractableObject : MonoBehaviour
 {
     public abstract float InteractRange { get; set; }
-    public virtual string InteractText { get; } = "Interact";
+    public virtual string InteractText { get; } = "[E] / Y Interact";
 
     protected InputController inputController = null;
     protected Canvas interactCanvas = null;
@@ -24,7 +24,7 @@ public abstract class InteractableObject : MonoBehaviour
 
 		interactCanvas = transform.GetChild(0).GetComponent<Canvas>();
 		
-		textPrompt = interactCanvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+		textPrompt = interactCanvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 		textPrompt.text = InteractText;
 
 		// hide interact canvas by default
