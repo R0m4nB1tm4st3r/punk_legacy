@@ -24,7 +24,7 @@ public class DamageController : DamagableObject
         DieEvent.AddListener((bool isDead) => {
             if (isDead)
             {
-                audioSource.PlayOneShot(DieClip);
+                if (audioSource != null)audioSource.PlayOneShot(DieClip);
 
                 if (gameObject.CompareTag(PlayerTag))
                 {
