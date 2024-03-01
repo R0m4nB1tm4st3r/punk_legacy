@@ -31,7 +31,7 @@ public abstract class DamageDealerObject : MonoBehaviour, IDamageDealer
 
 		foreach (Collider2D obj in hitObjects)
 		{
-			if (obj.TryGetComponent(out DamagableObject damagable))
+			if (!obj.isTrigger && obj.TryGetComponent(out DamagableObject damagable))
 			{
 				damagable.ReceiveDamage(Mathf.Clamp(RawDmg - damagable.Def, 1, RawDmg));
 			}
